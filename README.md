@@ -10,17 +10,17 @@ This project is focused on building a modern Data Warehouse from scratch using S
 
 SQL – For data modeling, transformations, and analytics.
 
-ETL Tools – Python, SQL scripts, or tools like Apache Airflow (optional).
+ETL Tools – Python, SQL scripts
 
 Data Modeling – Star schema, Snowflake schema, dimensional modeling.
 
-Data Warehouse Platform – (e.g., PostgreSQL, Redshift, Snowflake, BigQuery).
+Data Warehouse Platform –   Snowflake.
 
-Visualization (Optional) – Power BI, Tableau, or Jupyter Notebooks.
+Visualization (Optional) – Power BI.
 
 Version Control – Git & GitHub.
 
-📂 Project Structure
+Project Structure
 data-warehouse-project/
 │
 ├── data/                   # Sample raw data files
@@ -29,10 +29,11 @@ data-warehouse-project/
 │   ├── etl/                # Transformation and loading scripts
 │   └── analysis/           # Analytical queries and KPIs
 ├── models/                 # ER diagrams, schema designs, etc.
-├── notebooks/              # Jupyter Notebooks for exploration (optional)
+├── notebooks/              # Jupyter Notebooks for exploration 
 ├── reports/                # Documentation and analysis results
 ├── README.md               # Project documentation
 └── LICENSE
+
 
 🧩 Key Features
 
