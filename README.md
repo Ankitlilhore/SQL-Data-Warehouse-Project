@@ -16,8 +16,6 @@ Data Modeling – Star schema, Snowflake schema, dimensional modeling.
 
 Data Warehouse Platform –   Snowflake.
 
-Visualization (Optional) – Power BI.
-
 Version Control – Git & GitHub.
 
 Project Structure
