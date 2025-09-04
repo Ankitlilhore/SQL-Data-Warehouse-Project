@@ -1,130 +1,88 @@
+
 /*
-    ------------------------------------------------------
-    Stored Procedure : Load Bronze Layer(Source -> Bronze)
-    ------------------------------------------------------
+-----------------------------------------------------------------------------
+DDL Script : Create Bronze Tables
+-----------------------------------------------------------------------------
 
-    Scripts:
-              This stored procedure loads data into 'bronze' schema from CSV files,
-              It performs the following actions:
-                   - Truncate the bronze tables
-                   - Use the 'Bulk Insert' command to load the data
-   --------------------------------------------------------------------------------------         
-              Parameters:
-                          None
+This script create tables in 'brinze' schema, dropping
+existing tables if they already exist.
 
-              Example : EXEC bronze.load_bronze
-
-   */
+Whenever required to change the structure of tables , we 
+can run this script
+*/
 
 
-EXEC bronze.load_bronze
+IF OBJECT_ID('bronze.crm_cust_info', 'U') IS NOT NULL
+DROP TABLE bronze.crm_cust_info
+GO
 
-
-CREATE OR ALTER PROCEDURE bronze.load_bronze
-AS
-  BEGIN
-  DECLARE @start_time DATETIME, @end_time DATETIME;
-  SET @start_time = GETDATE();
-  BEGIN TRY
-PRINT('CRM Source Files Loading......')
-TRUNCATE TABLE bronze.crm_cust_info
-SET @start_time = GETDATE();
-BULK INSERT bronze.crm_cust_info
-FROM 'C:\Users\ankit\OneDrive\Dacument\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
+CREATE TABLE bronze.crm_cust_info(
+	[cst_id] [int] NULL,
+	[cst_key] [nvarchar](50) NULL,
+	[cst_firstname] [nvarchar](50) NULL,
+	[cst_lastname] [nvarchar](50) NULL,
+	[cst_material_status] [nvarchar](50) NULL,
+	[cst_gndr] [nvarchar](50) NULL,
+	[cst_create_date] [date] NULL
 );
 
-SET @end_time = GETDATE()
+IF OBJECT_ID('bronze.crm_prd_inf', 'U') IS NOT NULL
+DROP TABLE bronze.crm_prd_inf
+GO
 
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
-
-
-TRUNCATE TABLE bronze.crm_prd_inf
-SET @start_time = GETDATE();
-BULK INSERT bronze.crm_prd_inf
-FROM 'C:\Users\ankit\OneDrive\Dacument\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
-WITH(
-      FIRSTROW = 2,
-      FIELDTERMINATOR = ',',
-      TABLOCK
-   );
-SET @end_time = GETDATE()
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
-
-
-
-TRUNCATE TABLE bronze.crm_sales_details
-SET @start_time = GETDATE();
-BULK INSERT bronze.crm_sales_details
-FROM 'C:\Users\ankit\OneDrive\Dacument\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
-WITH (
-   FIRSTROW = 2,
-   FIELDTERMINATOR = ',',
-   TABLOCK
-   );
-SET @end_time = GETDATE()
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
-
-   
-PRINT(' ')
-PRINT('----------------------------------------------------------------------------------')
-PRINT('                                                        ')
- PRINT('ERP Soruce files loading.....')
-TRUNCATE TABLE  bronze.erp_cust_AZ12
-SET @start_time = GETDATE();
-BULK INSERT bronze.erp_cust_AZ12
-FROM 'C:\Users\ankit\OneDrive\Dacument\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
-WITH (
-    FIRSTROW = 2,
-    FIELDTERMINATOR = ',',
-    TABLOCK
-    );
-
-
-SET @end_time = GETDATE()
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
-
-    
-
-TRUNCATE TABLE bronze.erp_loc_A101
-SET @start_time = GETDATE();
-BULK INSERT bronze.erp_loc_A101
-FROM 'C:\Users\ankit\OneDrive\Dacument\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_erp\loc_a101.csv'
-WITH (
-   FIRSTROW = 2,
-   FIELDTERMINATOR = ',',
-   TABLOCK
-   );
- SET @end_time = GETDATE()
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
-  
-
-TRUNCATE TABLE bronze.erp_px_cat_g1v2
-SET @start_time = GETDATE();
-BULK INSERT bronze.erp_px_cat_g1v2
-FROM 'C:\Users\ankit\OneDrive\Dacument\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_erp\px_cat_g1v2.csv'
-WITH (
-FIRSTROW = 2,
-FIELDTERMINATOR = ',',
-TABLOCK
+CREATE TABLE bronze.crm_prd_inf(
+	[prd_id] [int] NULL,
+	[prd_key] [nvarchar](50) NULL,
+	[prd_nm] [nvarchar](50) NULL,
+	[prd_cost] [int] NULL,
+	[prd_line] [nvarchar](50) NULL,
+	[prd_start] [datetime] NULL,
+	[prd_end_dt] [datetime] NULL
 );
- SET @end_time = GETDATE()
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
 
-END TRY
-BEGIN CATCH
-            PRINT('Error occured during files loading')
-            PRINT 'Error Message' + ERROR_MESSAGE()
-            PRINT 'Error Message' + CAST(ERROR_NUMBER() AS NVARCHAR)
-            PRINT 'Error Message' + CAST(ERROR_STATE() AS NVARCHAR)
+IF OBJECT_ID('bronze.crm_sales_details', 'U') IS NOT NULL
+DROP TABLE bronze.crm_sales_details
+GO
 
-END CATCH
-print'-------------------------------------------------------------'
-SET @end_time = GETDATE()
+CREATE TABLE bronze.crm_sales_details(
+	[sls_ord_num] [nvarchar](50) NULL,
+	[sls_prd_key] [nvarchar](50) NULL,
+	[sls_cust_id] [int] NULL,
+	[sls_order_dt] [int] NULL,
+	[sls_ship_dt] [int] NULL,
+	[sls_due_dt] [int] NULL,
+	[sls_sales] [int] NULL,
+	[sls_quantity] [int] NULL,
+	[sls_price] [int] NULL
+);
 
-Print'>> Load Duration ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + 'seconds'
+IF OBJECT_ID('bronze.erp_cust_AZ12', 'U') IS NOT NULL
+DROP TABLE bronze.erp_cust_AZ12
+GO
 
-  END
+CREATE TABLE bronze.erp_cust_AZ12(
+	[CID] [nvarchar](50) NULL,
+	[bdate] [date] NULL,
+	[GEN] [nvarchar](50) NULL
+);
+
+IF OBJECT_ID('bronze.erp_loc_A101', 'U') IS NOT NULL
+DROP TABLE bronze.erp_loc_A101
+GO
+
+CREATE TABLE bronze.erp_loc_A101(
+	[CID] [nvarchar](50) NULL,
+	[cntry] [nvarchar](50) NULL
+);
+
+IF OBJECT_ID('bronze.erp_px_cat_g1v2', 'U') IS NOT NULL
+DROP TABLE bronze.erp_px_cat_g1v2
+GO
+
+CREATE TABLE bronze.erp_px_cat_g1v2(
+	[ID] [nvarchar](50) NULL,
+	[category] [nvarchar](50) NULL,
+	[sub_category] [nvarchar](50) NULL,
+	[maintenance] [nvarchar](50) NULL
+);
+
