@@ -4,7 +4,7 @@
 DDL Script : Create Bronze Tables
 -----------------------------------------------------------------------------
 
-This script create tables in 'brinze' schema, dropping
+This script create tables in 'bronze' schema, dropping
 existing tables if they already exist.
 
 Whenever required to change the structure of tables , we 
