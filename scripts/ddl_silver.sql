@@ -1,7 +1,7 @@
 
 /*
 --------------------------------------------
-DDL Script : create silver tables
+DDL Script : Create Silver Tables
 --------------------------------------------
 
 This script create tables in 'silver' schema, dropping
