@@ -1,7 +1,16 @@
+
+/*
 --------------------------------------------
-DDL Script : Silver Layer
+DDL Script : create silver tables
 --------------------------------------------
 
+This script create tables in 'silver' schema, dropping
+existing tables if they already exist.
+
+Whenever required to change the structure of tables , we 
+can run this script
+
+*/
 IF OBJECT_ID('silver.crm_cust_info', 'U') IS NOT NULL
 DROP TABLE silver.crm_cust_info
 GO
